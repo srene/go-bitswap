@@ -4,6 +4,7 @@ import (
 	"encoding/binary"
 	"errors"
 	"io"
+	"time"
 
 	pb "github.com/ipfs/go-bitswap/message/pb"
 	"github.com/ipfs/go-bitswap/wantlist"
@@ -23,6 +24,8 @@ type BitSwapMessage interface {
 	// Wantlist returns a slice of unique keys that represent data wanted by
 	// the sender.
 	Wantlist() []Entry
+
+	Timestamp() int64
 
 	// Blocks returns a slice of unique blocks.
 	Blocks() []blocks.Block
@@ -147,6 +150,7 @@ type impl struct {
 	blocks         map[cid.Cid]blocks.Block
 	blockPresences map[cid.Cid]pb.Message_BlockPresenceType
 	pendingBytes   int32
+	time int64
 }
 
 // New returns a new, empty bitswap message
@@ -160,6 +164,7 @@ func newMsg(full bool) *impl {
 		wantlist:       make(map[cid.Cid]*Entry),
 		blocks:         make(map[cid.Cid]blocks.Block),
 		blockPresences: make(map[cid.Cid]pb.Message_BlockPresenceType),
+		time: time.Now().Unix(),
 	}
 }
 
@@ -250,6 +255,10 @@ func (m *impl) Full() bool {
 
 func (m *impl) Empty() bool {
 	return len(m.blocks) == 0 && len(m.wantlist) == 0 && len(m.blockPresences) == 0
+}
+
+func (m *impl) Timestamp() int64 {
+	return m.time
 }
 
 func (m *impl) Wantlist() []Entry {

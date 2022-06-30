@@ -492,15 +492,13 @@ func (e *Engine) Peers() []peer.ID {
 // request queue (this is later popped off by the workerTasks)
 func (e *Engine) MessageReceived(ctx context.Context, p peer.ID, m bsmsg.BitSwapMessage) {
 	entries := m.Wantlist()
-
 	if len(entries) > 0 {
-		log.Debugw("Bitswap engine <- msg", "local", e.self, "from", p, "entryCount", len(entries))
 		for _, et := range entries {
 			if !et.Cancel {
 				if et.WantType == pb.Message_Wantlist_Have {
-					log.Debugw("Bitswap engine <- want-have", "local", e.self, "from", p, "cid", et.Cid)
+					fmt.Println("Bitswap engine <- want-have", "local", e.self, "from", p, "cid", et.Cid, "time", m.Timestamp())
 				} else {
-					log.Debugw("Bitswap engine <- want-block", "local", e.self, "from", p, "cid", et.Cid)
+					fmt.Println("Bitswap engine <- want-block", "local", e.self, "from", p, "cid", et.Cid, "time", m.Timestamp())
 				}
 			}
 		}

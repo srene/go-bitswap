@@ -224,7 +224,6 @@ func (pwm *peerWantManager) sendWants(p peer.ID, wantBlocks []cid.Cid, wantHaves
 			pwm.reverseIndexAdd(c, p)
 		}
 	}
-
 	// Send the want-blocks and want-haves to the peer
 	pws.peerQueue.AddWants(fltWantBlks, fltWantHvs)
 }
