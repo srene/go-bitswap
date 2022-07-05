@@ -2,7 +2,6 @@ package peermanager
 
 import (
 	"context"
-	"fmt"
 	"math/rand"
 	"testing"
 	"time"
@@ -195,9 +194,6 @@ func TestSendWants(t *testing.T) {
 	peerManager.Connected(peer1)
 	peerManager.SendWants(ctx, peer1, []cid.Cid{cids[0]}, []cid.Cid{cids[2]})
 	collected := collectMessages(msgs, 2*time.Millisecond)
-	for i, v := range collected {
-		fmt.Println("asdasd", i.String(), v.wantHaves)
-	}
 	if len(collected[peer1].wantHaves) != 1 {
 		t.Fatal("Expected want-have to be sent to peer")
 	}
