@@ -229,6 +229,7 @@ func (s *Session) logReceiveFrom(from peer.ID, interestedKs []cid.Cid, haves []c
 
 // GetBlock fetches a single block.
 func (s *Session) GetBlock(parent context.Context, k cid.Cid) (blocks.Block, error) {
+	log.Debugw("GetBlock ", k, time.Now().Unix())
 	return bsgetter.SyncGetBlock(parent, k, s.GetBlocks)
 }
 
@@ -237,6 +238,7 @@ func (s *Session) GetBlock(parent context.Context, k cid.Cid) (blocks.Block, err
 // guaranteed on the returned blocks.
 func (s *Session) GetBlocks(ctx context.Context, keys []cid.Cid) (<-chan blocks.Block, error) {
 	ctx = logging.ContextWithLoggable(ctx, s.uuid)
+	log.Debugw("GetBlocks ", keys, time.Now().Unix())
 
 	return bsgetter.AsyncGetBlocks(ctx, s.ctx, keys, s.notif,
 		func(ctx context.Context, keys []cid.Cid) {
