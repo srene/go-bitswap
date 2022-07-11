@@ -491,6 +491,7 @@ func (e *Engine) Peers() []peer.ID {
 // For each item in the wantlist, add a want-have or want-block entry to the
 // request queue (this is later popped off by the workerTasks)
 func (e *Engine) MessageReceived(ctx context.Context, p peer.ID, m bsmsg.BitSwapMessage) {
+	log.Debugw("MessageReceived ", time.Now().Unix())
 	entries := m.Wantlist()
 	if len(entries) > 0 {
 		for _, et := range entries {
