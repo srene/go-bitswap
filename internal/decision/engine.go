@@ -759,6 +759,8 @@ func (e *Engine) MessageSent(p peer.ID, m bsmsg.BitSwapMessage) {
 	l.lk.Lock()
 	defer l.lk.Unlock()
 
+	log.Debugw("MessageSent ", time.Now().Unix())
+
 	// Remove sent blocks from the want list for the peer
 	for _, block := range m.Blocks() {
 		e.scoreLedger.AddToSentBytes(l.Partner, len(block.RawData()))
