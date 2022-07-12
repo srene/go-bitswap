@@ -187,8 +187,6 @@ func (s *Session) Shutdown() {
 
 // ReceiveFrom receives incoming blocks from the given peer.
 func (s *Session) ReceiveFrom(from peer.ID, ks []cid.Cid, haves []cid.Cid, dontHaves []cid.Cid) {
-	log.Debugw("ReceiveFrom ", ks, time.Now().Unix())
-
 	// The SessionManager tells each Session about all keys that it may be
 	// interested in. Here the Session filters the keys to the ones that this
 	// particular Session is interested in.
@@ -231,7 +229,6 @@ func (s *Session) logReceiveFrom(from peer.ID, interestedKs []cid.Cid, haves []c
 
 // GetBlock fetches a single block.
 func (s *Session) GetBlock(parent context.Context, k cid.Cid) (blocks.Block, error) {
-	log.Debugw("GetBlock ", k, time.Now().Unix())
 	return bsgetter.SyncGetBlock(parent, k, s.GetBlocks)
 }
 
